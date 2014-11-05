@@ -8,9 +8,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = "baremettle/centos-6.5"
 
-  config.vm.provider :libvirt do |libvirt|
-    libvirt.storage_pool_name = "ssd"
-  end
+#  custom settings for libvirt provider
+#  config.vm.provider :libvirt do |libvirt|
+#    libvirt.storage_pool_name = "ssd"
+#  end
 
   config.vm.provision :shell, :path => "scripts/common.sh"
   config.vm.define "server1" do |srv|
@@ -33,7 +34,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 #  end
 
   [1, 2].each do |i|
-#  [1].each do |i|
       config.vm.define "host#{i}" do |host|
           host.vm.provision :shell, :path => "scripts/ipa-client.sh"
           host.vm.network "private_network", ip: "192.168.34.10#{i}"
